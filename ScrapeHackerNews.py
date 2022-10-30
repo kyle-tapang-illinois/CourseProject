@@ -68,7 +68,7 @@ def extract_metadata(links, subtext, scraping_depth, search_external_bool):
   for i in range(scraping_depth):
       for j in range(columns):
           # print("columns == " + str(columns))
-          title = links[i][j].getText() #program is breaking here out of index
+          title = links[i][j].getText() 
           # print("title: " + title)
           href = links[i][j].a.get('href', None)
           
