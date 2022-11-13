@@ -11,7 +11,9 @@ from urllib.error import HTTPError
 from socket import timeout
 from bs4 import BeautifulSoup
 import pprint
+import ssl
 
+ssl._create_default_https_context = ssl._create_unverified_context
 
 COUNT = 1
 
