@@ -1,6 +1,7 @@
 import torch
 from transformers import BertTokenizer, BertModel
 import torch.nn as nn
+import pandas as pd
 
 class BertSentimentModel(nn.Module):
     def __init__(self,bert,hidden_dim,output_dim,n_layers,bidirectional,dropout):
@@ -64,3 +65,46 @@ def predictSentiment(model, device, tokenizer, init_token_id, eos_token_id, sent
     prediction = torch.sigmoid(model(tensor))
     
     return prediction.item()
+
+def rankBySentiment(df):
+    ###########################################################################
+    # We might want to think about loading the model and processing this sentiment
+    # analysis at the beginning of the program.  We now have data.csv that is a
+    # static database (.csv) saved off from our scraper for the demonstration
+    # purposes.  This will speed things up on the query->results.
+    #
+    # ******I am adding a new column to the dataframe here named score******
+    #
+    ###########################################################################
+
+    path_to_model = "model\sentiment_model.pt"
+    model, device, tokenizer, init_token_id, eos_token_id = loadSentimentModel(path_to_model)
+
+    df['score'] = ''
+
+    for row in df.itertuples():
+
+        if pd.isna(df.at[row.Index, 'contents']):
+            inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
+                                           str(df.at[row.Index, 'title']))
+            df.at[row.Index, "score"] = inference
+        else:
+            inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
+                                           str(df.at[row.Index, 'contents']))
+            df.at[row.Index, "score"] = inference
+
+    # sort, highest value first
+    sorted_sentiment_df = df.sort_values(by=['score'], ascending=False)
+
+    return sorted_sentiment_df
+
+def main():
+    df = pd.read_csv('database\data.csv')
+    df = rankBySentiment(df)
+
+    header = ["id", "score"]
+    df.to_csv('database\data_sentiment_scores.csv', columns=header, index=False)
+    print(df)
+
+if __name__ == '__main__':
+    main()
