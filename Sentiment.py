@@ -45,7 +45,10 @@ def loadSentimentModel(path_to_model):
     
     model = BertSentimentModel(bert_model, 256, 1, 2, True, 0.25)
     #bert,hidden_dim,output_dim,n_layers,bidirectional,dropout
-    model.load_state_dict(torch.load(path_to_model))
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load(path_to_model))
+    else:
+        model.load_state_dict(torch.load(path_to_model, map_location=torch.device('cpu')))
     model.eval()
     model = model.to(device)
     
