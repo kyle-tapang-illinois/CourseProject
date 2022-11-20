@@ -44,11 +44,27 @@ input[type=submit]{
     border-radius: 4px;
     cursor: pointer;
 }
-#searchAgain {
-    left: 0;
+input[type=submit]{
+    width: 150px;
+    background-color: #f4fbf5;
+    color: #030303;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button[type=submit]{
+    left:650px;
     position: absolute;
-    text-align: center;
-    width: 100%;
+    width: 150px;
+    background-color: #f4fbf5;
+    color: #030303;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 #hackernews {
