@@ -9,7 +9,13 @@
   <h1>Hacker News:</h1>
     
   <div id="hackernews">
-    <form></form>
+    <ol>
+      {%for i in range(0, 5)%}
+         <li> <a href= " {{ urls[i] }} "> <p>{{ titles[i]}} </p> </a> </li>
+      {% endfor %}
+   </ol>
+
+  </ol>
   </div>
 
    <form method="get", action="/", id="searchAgain">

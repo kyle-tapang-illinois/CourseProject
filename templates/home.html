@@ -8,18 +8,18 @@
 
 <body>
     <h1>Weclome to Hacker News Searcher</h1>
+    
+    {% if error %}
+       <h2> <strong>Error: {{error}}</strong></h2>
+    {% endif %}
 
     <div id="main_items">
 
         <form action="/" method="post" id="query">
             <p><input type="text" id="inputquery" name="nm" size="100" placeholder="Enter a query here.." ></p>
-            <p><select id="methods" name="methods">
-                <option value="none" selected disabled hidden>Select a Method</option>
-                <option value="bm25">BM25</option>
-                <option value="setimentanalysis">Setiment Analysis</option>
-                </select></p>
             <p><input type="submit" value="submit"></p>
         </form>
+        
     </div>
 
 </body>
