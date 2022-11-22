@@ -53,7 +53,9 @@ def ranker(query):
     data["sentiment_adjusted_bm25_scores"] = sentiment_adjusted_bm25_scores
     sorted_by_adjusted_bm25_scores = data.sort_values(by=['sentiment_adjusted_bm25_scores'], ascending=False)
     top_n = 5
-    return sorted_by_adjusted_bm25_scores[["title", "link"]].values[:top_n]
+    sorted_by_adjusted_bm25_scores = sorted_by_adjusted_bm25_scores[["title", "link"]][:top_n]
+    sorted_by_adjusted_bm25_scores.rename(columns={'link': 'url'}, inplace=True)
+    return sorted_by_adjusted_bm25_scores
 
 
 def main():
