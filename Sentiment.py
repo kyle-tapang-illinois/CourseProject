@@ -66,7 +66,7 @@ def predictSentiment(model, device, tokenizer, init_token_id, eos_token_id, sent
     
     return prediction.item()
 
-def rankBySentiment(df):
+def getSentiment(df):
     ###########################################################################
     # We might want to think about loading the model and processing this sentiment
     # analysis at the beginning of the program.  We now have data.csv that is a
@@ -81,6 +81,7 @@ def rankBySentiment(df):
     model, device, tokenizer, init_token_id, eos_token_id = loadSentimentModel(path_to_model)
 
     df['score'] = ''
+    df['is_content'] = ''
 
     for row in df.itertuples():
 
@@ -88,21 +89,26 @@ def rankBySentiment(df):
             inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
                                            str(df.at[row.Index, 'title']))
             df.at[row.Index, "score"] = inference
+            df.at[row.Index, "is_content"] = False
         else:
             inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
                                            str(df.at[row.Index, 'contents']))
             df.at[row.Index, "score"] = inference
+            df.at[row.Index, "is_content"] = True
 
-    # sort, highest value first
-    sorted_sentiment_df = df.sort_values(by=['score'], ascending=False)
+    sentiment_df = df.sort_values(by=['id'], ascending=True)
 
-    return sorted_sentiment_df
+    return sentiment_df
+
+def rankBySentiment(df):
+    df = getSentiment(df)
+    return df.sort_values(by=['score'], ascending=False)
 
 def main():
     df = pd.read_csv('database\data.csv')
-    df = rankBySentiment(df)
+    df = getSentiment(df)
 
-    header = ["id", "score"]
+    header = ["id", "score", "is_content"]
     df.to_csv('database\data_sentiment_scores.csv', columns=header, index=False)
     print(df)
 
