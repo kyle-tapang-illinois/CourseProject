@@ -23,7 +23,7 @@ def home():
 def results(query):
 	df = ranker(query)
 	titles = df["title"].values
-	urls = df["url"].values
+	urls = df["link"].values
 
 	return render_template("results.html", titles=titles, urls=urls)
 	
