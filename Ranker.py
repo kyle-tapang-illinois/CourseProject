@@ -35,14 +35,13 @@ def get_corpus(data, sentiment_scores):
 
 
 def ranker(query):
-    data = pd.read_csv('database\data.csv', index_col=0, encoding='utf8')
-    sentiment_scores = pd.read_csv('database\data_sentiment_scores.csv', index_col=0)
+    data = pd.read_csv('database/data.csv', index_col=0, encoding='utf8')
+    sentiment_scores = pd.read_csv('database/data_sentiment_scores.csv', index_col=0)
 
     tokenized_query = remove_stopwords(query.split(" "))
     tokenized_corpus = get_corpus(data, sentiment_scores)
     bm25 = BM25Okapi(tokenized_corpus)
-
-    path_to_model = "model\sentiment_model.pt"
+    path_to_model = "model/sentiment_model.pt"
     model, device, tokenizer, init_token_id, eos_token_id = s.loadSentimentModel(path_to_model)
     query_sentiment_score = s.predictSentiment(model, device, tokenizer, init_token_id, eos_token_id, query)
 
@@ -54,7 +53,6 @@ def ranker(query):
     sorted_by_adjusted_bm25_scores = data.sort_values(by=['sentiment_adjusted_bm25_scores'], ascending=False)
     top_n = 5
     sorted_by_adjusted_bm25_scores = sorted_by_adjusted_bm25_scores[["title", "link"]][:top_n]
-    sorted_by_adjusted_bm25_scores.rename(columns={'link': 'url'}, inplace=True)
     return sorted_by_adjusted_bm25_scores
 
 

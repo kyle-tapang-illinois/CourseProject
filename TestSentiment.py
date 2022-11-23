@@ -1,7 +1,7 @@
 import Sentiment as s 
 
 #this only needs to be done once
-path_to_model = "model\sentiment_model.pt"
+path_to_model = "model/sentiment_model.pt"
 model, device, tokenizer, init_token_id, eos_token_id = s.loadSentimentModel(path_to_model)
 
 

@@ -77,7 +77,7 @@ def getSentiment(df):
     #
     ###########################################################################
 
-    path_to_model = "model\sentiment_model.pt"
+    path_to_model = "model/sentiment_model.pt"
     model, device, tokenizer, init_token_id, eos_token_id = loadSentimentModel(path_to_model)
 
     df['score'] = ''
@@ -105,11 +105,11 @@ def rankBySentiment(df):
     return df.sort_values(by=['score'], ascending=False)
 
 def main():
-    df = pd.read_csv('database\data.csv')
+    df = pd.read_csv('database/data.csv')
     df = getSentiment(df)
 
     header = ["id", "score", "is_content"]
-    df.to_csv('database\data_sentiment_scores.csv', columns=header, index=False)
+    df.to_csv('database/data_sentiment_scores.csv', columns=header, index=False)
     print(df)
 
 if __name__ == '__main__':
