@@ -1,6 +1,7 @@
 import torch
 from transformers import BertTokenizer, BertModel
 import torch.nn as nn
+import pandas as pd
 
 class BertSentimentModel(nn.Module):
     def __init__(self,bert,hidden_dim,output_dim,n_layers,bidirectional,dropout):
@@ -45,7 +46,10 @@ def loadSentimentModel(path_to_model):
     
     model = BertSentimentModel(bert_model, 256, 1, 2, True, 0.25)
     #bert,hidden_dim,output_dim,n_layers,bidirectional,dropout
-    model.load_state_dict(torch.load(path_to_model))
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load(path_to_model))
+    else:
+        model.load_state_dict(torch.load(path_to_model, map_location=torch.device('cpu')))
     model.eval()
     model = model.to(device)
     
@@ -61,3 +65,52 @@ def predictSentiment(model, device, tokenizer, init_token_id, eos_token_id, sent
     prediction = torch.sigmoid(model(tensor))
     
     return prediction.item()
+
+def getSentiment(df):
+    ###########################################################################
+    # We might want to think about loading the model and processing this sentiment
+    # analysis at the beginning of the program.  We now have data.csv that is a
+    # static database (.csv) saved off from our scraper for the demonstration
+    # purposes.  This will speed things up on the query->results.
+    #
+    # ******I am adding a new column to the dataframe here named score******
+    #
+    ###########################################################################
+
+    path_to_model = "model\sentiment_model.pt"
+    model, device, tokenizer, init_token_id, eos_token_id = loadSentimentModel(path_to_model)
+
+    df['score'] = ''
+    df['is_content'] = ''
+
+    for row in df.itertuples():
+
+        if pd.isna(df.at[row.Index, 'contents']):
+            inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
+                                           str(df.at[row.Index, 'title']))
+            df.at[row.Index, "score"] = inference
+            df.at[row.Index, "is_content"] = False
+        else:
+            inference = predictSentiment(model, device, tokenizer, init_token_id, eos_token_id,
+                                           str(df.at[row.Index, 'contents']))
+            df.at[row.Index, "score"] = inference
+            df.at[row.Index, "is_content"] = True
+
+    sentiment_df = df.sort_values(by=['id'], ascending=True)
+
+    return sentiment_df
+
+def rankBySentiment(df):
+    df = getSentiment(df)
+    return df.sort_values(by=['score'], ascending=False)
+
+def main():
+    df = pd.read_csv('database\data.csv')
+    df = getSentiment(df)
+
+    header = ["id", "score", "is_content"]
+    df.to_csv('database\data_sentiment_scores.csv', columns=header, index=False)
+    print(df)
+
+if __name__ == '__main__':
+    main()
