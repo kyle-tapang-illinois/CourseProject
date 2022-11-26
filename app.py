@@ -10,7 +10,7 @@ def home():
 	error = None
 
 	if request.method == "POST":
-		query= request.form["nm"]
+		query= request.form["query"]
 		if query !="":
 			return redirect(url_for("results", query=query))
 		else:
@@ -29,6 +29,6 @@ def results(query):
 	
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run()
 
 
