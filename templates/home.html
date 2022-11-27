@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html>
 
-<head>
-    <title>Weclome to Hacker News Searcher</title>
-    <link rel="stylesheet" href="../static/main.css">
-</head>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="../static/main.css">
+        <title>Weclome to Hacker News Searcher</title>
+    </head>
 
-<body>
-    <h1>Weclome to Hacker News Searcher</h1>
-    
-    {% if error %}
-       <h2> <strong>Error: {{error}}</strong></h2>
-    {% endif %}
+    <body>
+        <h1>Weclome to Hacker News Searcher</h1>
+        <!-- error handling-->
+        {% if error %}
+            <h2> <strong>Error: {{error}}</strong></h2>
+        {% endif %}
 
-    <div id="inputItems">
-        <form action="/" method="post" id="inputForm">
-            <p><input type="text" id="searchTextbox" name="searchData" placeholder="Search..." ></p>
-            <p><input type="submit" value="Search"></p>
-        </form>
-    </div>
+        <div id="inputItems">
+            <form action="/" method="post" id="inputForm">
+                <p><input type="text" id="searchTextbox" name="searchData" placeholder="Search..." ></p>
+                <p><input type="submit" value="Search"></p>
+            </form>
+        </div>
 
-</body>
+    </body>
 
 </html> 

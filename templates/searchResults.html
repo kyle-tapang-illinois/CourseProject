@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html>
-    
-<title>hackerNewsResults</title>
-<link rel="stylesheet" href="../static/main.css">
 
-<body>
+<html lang="en">
+  <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="../static/main.css">
+      <title>hackerNewsResults</title>
+   </head>
 
-  <h1>Hacker News</h1>
-    
-  <div id="hackernews">
-    <ol>
-      {%for i in range(0, 5)%}
-         <li> <a href= " {{ urls[i] }} "> <p>{{ titles[i]}} </p> </a> </li>
-      {% endfor %}
-   </ol>
-  </div>
-
-   <form method="get", action="/", id="goBack">
-      <button type="submit">Go back!</button>
-   </form>
-
-</body> 
-
+   <body>
+      <h1>Hacker News</h1>
+      <div id="hackernews">
+         <ol>
+            {%for i in range(0, 5)%}
+               <li> <a href= " {{ urls[i] }} "> <p>{{ titles[i]}} </p> </a> </li>
+            {% endfor %}
+         </ol>
+      </div>
+      <form method="get", action="/", id="goBack">
+         <button type="submit">Go back</button>
+      </form>
+   </body> 
 
 </html>
