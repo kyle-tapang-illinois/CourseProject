@@ -16,7 +16,7 @@ h2 {
     color: #eb2727;
 }
 
-#query {
+#inputForm {
     left: 0;
     position: absolute;
     text-align: center;
@@ -24,7 +24,7 @@ h2 {
     margin: none;
   }
 
-#inputquery, #methods{
+#searchTextbox, #methods{
     width: 370px;
     padding: 12px 18px;
     margin: 8px 0;
@@ -35,7 +35,7 @@ h2 {
 }
 
 input[type=submit]{
-    width: 150px;
+    width: 100px;
     background-color: #f4fbf5;
     color: #030303;
     padding: 14px 20px;
@@ -48,7 +48,7 @@ input[type=submit]{
 button[type=submit]{
     left:650px;
     position: absolute;
-    width: 150px;
+    width: 100px;
     background-color: #f4fbf5;
     color: #030303;
     padding: 14px 20px;
@@ -66,6 +66,6 @@ button[type=submit]{
     color:  #2F4F4F;
 }
 
-#main_items {
+#inputItems {
     padding-top: 150px;
 }

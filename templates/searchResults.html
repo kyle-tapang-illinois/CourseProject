@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     
-<title>Results</title>
+<title>hackerNewsResults</title>
 <link rel="stylesheet" href="../static/main.css">
 
 <body>
 
-  <h1>Hacker News:</h1>
+  <h1>Hacker News</h1>
     
   <div id="hackernews">
     <ol>
@@ -14,12 +14,10 @@
          <li> <a href= " {{ urls[i] }} "> <p>{{ titles[i]}} </p> </a> </li>
       {% endfor %}
    </ol>
-
-  </ol>
   </div>
 
-   <form method="get", action="/", id="searchAgain">
-      <button type="submit">Search Again</button>
+   <form method="get", action="/", id="goBack">
+      <button type="submit">Go back!</button>
    </form>
 
 </body> 

@@ -5,27 +5,27 @@ import pandas as pd
 app = Flask(__name__)
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/", methods=["GET","POST"])
 def home():
 	error = None
 
 	if request.method == "POST":
-		query= request.form["query"]
-		if query !="":
-			return redirect(url_for("results", query=query))
+		searchData= request.form["searchData"]
+		if searchData !="":
+			return redirect(url_for("hackerNewsSearchResults", searchData=searchData))
 		else:
-			error = 'Please enter your query'
+			error = 'Please enter your search data'
 			return render_template("home.html", error = error)
 	else:
 		return render_template("home.html")
 
-@app.route("/results/<string:query>" , methods=["GET"])
-def results(query):
-	df = ranker(query)
+@app.route("/hackerNewsSearchResults/<string:searchData>" , methods=["GET"])
+def hackerNewsSearchResults(searchData):
+	df = ranker(searchData)
 	titles = df["title"].values
 	urls = df["link"].values
 
-	return render_template("results.html", titles=titles, urls=urls)
+	return render_template("searchResults.html", titles=titles, urls=urls)
 	
 
 if __name__ == "__main__":
